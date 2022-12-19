@@ -5,8 +5,8 @@ const initialState = {
 };
 
 export const auth = createAsyncThunk("authPost", async (action) => {
-  console.log("🚀 ~ file: authSlice.js:8 ~ auth ~ action", action)
-  await localStorage.setItem("profile", JSON.stringify({ ...action }));
+  console.log("🚀 ~ file: authSlice.js:8 ~ auth ~ action", action);
+  localStorage.setItem("profile", JSON.stringify({ ...action }));
   return action;
 });
 
@@ -20,7 +20,7 @@ export const authSlice = createSlice({
       state.loading = true;
     });
     builder.addCase(auth.fulfilled, (state, action) => {
-      state.authData = action
+      state.authData = action;
       state.loading = false;
     });
     builder.addCase(auth.rejected, (state, action) => {

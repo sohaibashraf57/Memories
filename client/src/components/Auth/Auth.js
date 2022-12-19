@@ -15,12 +15,14 @@ import { GoogleLogin, googleLogout } from "@react-oauth/google";
 import jwt_decode from "jwt-decode";
 import { useDispatch } from "react-redux";
 import { auth } from "../../features/authSlice";
+import { useNavigate } from "react-router-dom";
 
 const Auth = () => {
   const classes = useStyles();
   const [showPassword, setShowPassword] = useState(false);
   const [isSignUp, setIsSignUp] = useState(false);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleSubmit = () => {};
 
@@ -43,6 +45,7 @@ const Auth = () => {
 
     try {
       dispatch(auth(payload));
+      navigate('/')
     } catch (error) {
       console.log(error);
     }
