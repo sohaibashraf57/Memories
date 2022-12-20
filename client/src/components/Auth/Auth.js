@@ -45,7 +45,7 @@ const Auth = () => {
 
     try {
       dispatch(auth(payload));
-      navigate('/')
+      navigate("/");
     } catch (error) {
       console.log(error);
     }
