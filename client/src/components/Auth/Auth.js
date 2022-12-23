@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import LockOutlined from "@mui/icons-material/LockOutlined";
 import {
   Avatar,
@@ -13,20 +13,40 @@ import Input from "./Input";
 import Icon from "./icon";
 import { GoogleLogin, googleLogout } from "@react-oauth/google";
 import jwt_decode from "jwt-decode";
-import { useDispatch } from "react-redux";
-import { auth } from "../../features/authSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { auth, signin, signup } from "../../features/authSlice";
 import { useNavigate } from "react-router-dom";
+
+const initialState = {
+  firstName: "",
+  lastName: "",
+  email: "",
+  password: "",
+  confirmPassword: "",
+};
 
 const Auth = () => {
   const classes = useStyles();
+  const { success } = useSelector((state) => state.auth);
   const [showPassword, setShowPassword] = useState(false);
   const [isSignUp, setIsSignUp] = useState(false);
+  const [formData, setFormData] = useState(initialState);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleSubmit = () => {};
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
-  const handleChange = () => [];
+    if (isSignUp) {
+      dispatch(signup(formData));
+    } else {
+      dispatch(signin(formData));
+    }
+  };
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
   const handleShowPassword = () => setShowPassword((prev) => !prev);
 
@@ -54,6 +74,11 @@ const Auth = () => {
   const googleError = (err) => {
     console.log(err);
   };
+
+  useEffect(() => {
+    if (success) navigate("/");
+  }, [navigate, success]);
+
   return (
     <Container component="main" maxWidth="xs">
       <Paper className={classes.paper} elevation={3}>
@@ -74,8 +99,8 @@ const Auth = () => {
                 ></Input>
 
                 <Input
-                  name="firstName"
-                  label="First Name"
+                  name="lastName"
+                  label="Last Name"
                   handleChange={handleChange}
                   half
                   autoFocus

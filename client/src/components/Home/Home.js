@@ -10,13 +10,14 @@ const Home = () => {
   const [currentId, setCurrentId] = useState(null);
   const dispatch = useDispatch();
 
+
   useEffect(() => {
     dispatch(fetchPost());
   }, [setCurrentId, dispatch]);
 
-  return (  
+  return (
     <Grow in>
-      <Container> 
+      <Container>
         <Grid
           container
           justify="space-between"
