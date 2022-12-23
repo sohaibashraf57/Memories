@@ -30,13 +30,9 @@ const Form = ({ currentId, setCurrentId }) => {
     e.preventDefault();
 
     if (currentId) {
-      const payload = {
-        id: currentId,
-        postData: postData,
-      };
-      dispatch(updatePost(currentId, { userName: user?.data?.result?.name }));
+      dispatch(updatePost(currentId, { name: user?.result?.name }));
     } else {
-      dispatch(addPost({ postData, userName: user?.data?.result?.name }));
+      dispatch(addPost({ ...postData, name: user?.result?.name }));
     }
 
     clear();
@@ -52,7 +48,7 @@ const Form = ({ currentId, setCurrentId }) => {
     });
   };
 
-  if (!user?.data?.result?.name) {
+  if (!user?.result?.name) {
     return (
       <Paper className={classes.paper}>
         <Typography variant="h6" align="center">

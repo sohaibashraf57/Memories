@@ -15,14 +15,14 @@ export const auth = createAsyncThunk("authPost", async (action) => {
 
 export const signin = createAsyncThunk("signin", async (formData) => {
   const { data } = await signIn(formData);
-  localStorage.setItem("profile", JSON.stringify({ data }));
+  localStorage.setItem("profile", JSON.stringify(data));
   return data;
 });
 
 export const signup = createAsyncThunk("signup", async (formData) => {
   const { data } = await signUp(formData);
 
-  localStorage.setItem("profile", JSON.stringify({ data }));
+  localStorage.setItem("profile", JSON.stringify(data));
   return data;
 });
 

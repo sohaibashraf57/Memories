@@ -5,7 +5,7 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import memories from "../../images/memories.png";
 import useStyles from "./styles";
 import { logout, signin, signup } from "../../features/authSlice";
-
+import decode from "jwt-decode";
 const Navbar = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -14,7 +14,12 @@ const Navbar = () => {
   const location = useLocation();
 
   useEffect(() => {
+    const token = user?.token;
     setUser(JSON.parse(localStorage.getItem("profile")));
+    if (token) {
+      const decodedToken = decode(token);
+      if (decodedToken.exp * 1000 < new Date().getTime()) logout();
+    }
   }, [location]);
 
   const logOut = () => {
@@ -34,17 +39,17 @@ const Navbar = () => {
         />
       </Link>
       <Toolbar className={classes.toolbar}>
-        {user?.data?.result ? (
+        {user?.result ? (
           <div className={classes.profile}>
             <Avatar
               className={classes.purple}
-              alt={user?.data?.result.name}
-              src={user?.data?.result.imageUrl}
+              alt={user?.result.name}
+              src={user?.result.imageUrl}
             >
-              {user?.data?.result.name.charAt(0)}
+              {user?.result.name.charAt(0)}
             </Avatar>
             <Typography className={classes.userName} variant="h6">
-              {user?.data?.result.name}
+              {user?.result.name}
             </Typography>
             <Button
               variant="contained"
